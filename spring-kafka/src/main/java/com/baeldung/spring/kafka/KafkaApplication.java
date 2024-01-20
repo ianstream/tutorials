@@ -101,6 +101,16 @@ public class KafkaApplication {
 
         public void sendMessage(String message) {
 
+            /**
+             * It calls the send method on the kafkaTemplate object, passing the topicName and message as arguments.
+             * The send method sends the message to the specified Kafka topic.
+             * This method returns a CompletableFuture of SendResult,
+             * which can be used to handle the result of the send operation asynchronously
+             *
+             * It then uses the whenComplete method on the returned CompletableFuture to handle the result of the send operation.
+             * The whenComplete method takes a BiConsumer that is invoked when the CompletableFuture completes.
+             * In this case, the BiConsumer checks if the send operation was successful or not.
+             */
             CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(topicName, message);
             future.whenComplete((result, ex) -> {
 
