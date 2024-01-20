@@ -13,12 +13,25 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
+
+/**
+ * The KafkaProducerConfig class is a configuration class used in Spring Kafka to set up Kafka Producer related beans.
+ * It is annotated with @Configuration to indicate that it is a source of bean definitions.
+ * The class defines several beans that are used to configure the Kafka Producer.
+ */
 @Configuration
 public class KafkaProducerConfig {
 
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
+    /**
+     * The ProducerFactory bean defines the configuration used to create Kafka Producer instances.
+     * The ProducerFactory is an interface provided by Spring Kafka.
+     * It is used to create instances of KafkaProducer.
+     * The KafkaProducer is the class that is used to send records to the Kafka Broker.
+     * @return
+     */
     @Bean
     public ProducerFactory<String, String> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
@@ -30,6 +43,12 @@ public class KafkaProducerConfig {
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
+    /**
+     * The KafkaTemplate bean is the actual class that is used to send messages to Kafka.
+     * KafkaTemplate is a high-level abstraction provided by the Spring Kafka library to send messages to Kafka topics.
+     * It wraps a Producer instance and provides convenience methods for sending messages.
+     * @return
+     */
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());

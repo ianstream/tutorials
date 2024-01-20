@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaAdmin;
 
+
+/**
+ * This class defines the Kafka topics used in the examples.
+ */
 @Configuration
 public class KafkaTopicConfig {
 
@@ -34,6 +38,12 @@ public class KafkaTopicConfig {
     @Value(value = "${multi.type.topic.name}")
     private String multiTypeTopicName;
 
+    /**
+     * This bean defines the KafkaAdmin instance used to create the topics.
+     * KafkaAdmin is a class provided by the Spring Kafka library.
+     * It is used to perform administrative operations on Kafka, such as creating topics.
+     * @return the KafkaAdmin instance
+     */
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();

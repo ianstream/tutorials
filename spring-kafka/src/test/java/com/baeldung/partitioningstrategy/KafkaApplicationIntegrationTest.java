@@ -49,6 +49,14 @@ public class KafkaApplicationIntegrationTest {
         kafkaMessageConsumer.clearReceivedMessages();
     }
 
+    /**
+     * This test method verifies the behavior of the default Kafka partitioner when sending messages without a key.
+     * The default Kafka partitioner uses a sticky distribution strategy, which means that it tries to send all messages
+     * to the same partition as long as that partition is available. This test sends three messages without a key and
+     * checks that all messages are received from the same partition, demonstrating the sticky distribution behavior.
+     *
+     * @throws InterruptedException if the thread is interrupted while waiting for messages to be received
+     */
     @Test
     public void givenDefaultPartitioner_whenSendingMessagesWithoutKey_shouldUseStickyDistribution() throws InterruptedException {
         kafkaTemplate.send("default-topic", "message1");
