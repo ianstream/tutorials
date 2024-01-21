@@ -18,6 +18,18 @@ import org.springframework.kafka.support.mapping.DefaultJackson2JavaTypeMapper;
 import org.springframework.kafka.support.mapping.Jackson2JavaTypeMapper;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 
+
+/**
+ * The @EnableKafka annotation is used in Spring Kafka
+ *      to enable the detection of @KafkaListener annotations on any Spring-managed beans in your application.
+ *
+ * When you annotate a @Configuration class with @EnableKafka,
+ * it triggers the setup of Kafka-related infrastructure,
+ * allowing methods annotated with @KafkaListener to be discovered and created as message listener endpoints.
+ *
+ * In the context of your code, the @EnableKafka annotation is enabling the Kafka infrastructure in your KafkaConsumerConfig class.
+ * This means that any methods in your application annotated with @KafkaListener will be registered as listeners for Kafka messages.
+ */
 @EnableKafka
 @Configuration
 public class KafkaConsumerConfig {
@@ -67,6 +79,16 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory("longMessage");
     }
 
+    /**
+     * The filterKafkaListenerContainerFactory method is a part of the KafkaConsumerConfig class.
+     * This method is responsible for creating and configuring a ConcurrentKafkaListenerContainerFactory
+     *      that is used to create containers for methods annotated with @KafkaListener.
+     *
+     * The factory created by this method is configured with a RecordFilterStrategy.
+     * This strategy is used to filter out certain records before they are passed to the listener.
+     * In this case, the strategy is set to filter out any records where the value contains the string "World".
+     * @return
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> filterKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = kafkaListenerContainerFactory("filter");
@@ -79,6 +101,7 @@ public class KafkaConsumerConfig {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "greeting");
+        // greetingProducerFactory 메소드에서 JsonSerializer를 사용했기 때문에 여기서는 JsonDeserializer를 사용한다.
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(Greeting.class));
     }
 

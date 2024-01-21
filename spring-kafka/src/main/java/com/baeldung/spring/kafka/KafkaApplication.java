@@ -164,12 +164,23 @@ public class KafkaApplication {
             latch.countDown();
         }
 
+        /**
+         * The listenToPartition function is a method in the MessageListener class.
+         * This function is annotated with @KafkaListener, which means it is a listener for Kafka messages.
+         * Specifically, it listens to messages from certain partitions of a Kafka topic.
+         * @param message : This is the message received from the Kafka topic.
+         * @param partition : This is the partition number from which the message was received.
+         */
         @KafkaListener(topicPartitions = @TopicPartition(topic = "${partitioned.topic.name}", partitions = { "0", "3" }), containerFactory = "partitionsKafkaListenerContainerFactory")
         public void listenToPartition(@Payload String message, @Header(KafkaHeaders.RECEIVED_PARTITION) int partition) {
             System.out.println("Received Message: " + message + " from partition: " + partition);
             this.partitionLatch.countDown();
         }
 
+        /**
+         * 메세지에 특정 문자가 포함된 경우 사용하는 리스너를 선언했고 여기서는 해당 리스너에서 전송된 메세지를 받아서 출력하는 것이 전부이다.
+         * @param message
+         */
         @KafkaListener(topics = "${filtered.topic.name}", containerFactory = "filterKafkaListenerContainerFactory")
         public void listenWithFilter(String message) {
             System.out.println("Received Message in filtered listener: " + message);

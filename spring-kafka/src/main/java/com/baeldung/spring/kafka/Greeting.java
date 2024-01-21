@@ -1,5 +1,8 @@
 package com.baeldung.spring.kafka;
 
+/**
+ * This class defines the Greeting object that is used in the examples.
+ */
 public class Greeting {
 
     private String msg;
