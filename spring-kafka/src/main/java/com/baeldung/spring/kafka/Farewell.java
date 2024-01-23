@@ -1,5 +1,8 @@
 package com.baeldung.spring.kafka;
 
+/**
+ * multi-method linster 를 위해 추가된 클래스
+ */
 public class Farewell {
 
     private String message;

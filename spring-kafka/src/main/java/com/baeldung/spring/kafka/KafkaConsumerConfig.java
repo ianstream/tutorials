@@ -105,6 +105,10 @@ public class KafkaConsumerConfig {
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(Greeting.class));
     }
 
+    /**
+     * Greeting 클래스를 사용하는 메시지를 처리하는 리스너를 위한 ConcurrentKafkaListenerContainerFactory를 생성한다.
+     * @return
+     */
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, Greeting> greetingKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Greeting> factory = new ConcurrentKafkaListenerContainerFactory<>();
@@ -118,6 +122,8 @@ public class KafkaConsumerConfig {
         DefaultJackson2JavaTypeMapper typeMapper = new DefaultJackson2JavaTypeMapper();
         typeMapper.setTypePrecedence(Jackson2JavaTypeMapper.TypePrecedence.TYPE_ID);
         typeMapper.addTrustedPackages("com.baeldung.spring.kafka");
+
+        // map 에 사용할 클래스를 등록한다.
         Map<String, Class<?>> mappings = new HashMap<>();
         mappings.put("greeting", Greeting.class);
         mappings.put("farewell", Farewell.class);
@@ -139,6 +145,8 @@ public class KafkaConsumerConfig {
     public ConcurrentKafkaListenerContainerFactory<String, Object> multiTypeKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(multiTypeConsumerFactory());
+
+        // multiTypeConverter() 메소드에서 생성한 RecordMessageConverter를 사용한다.
         factory.setMessageConverter(multiTypeConverter());
         return factory;
     }

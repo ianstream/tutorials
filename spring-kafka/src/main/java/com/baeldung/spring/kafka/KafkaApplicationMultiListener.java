@@ -35,6 +35,9 @@ public class KafkaApplicationMultiListener {
         @Value(value = "${multi.type.topic.name}")
         private String multiTypeTopicName;
 
+        /**
+         * 멀티타입 토픽에 Greeting, Farewell, String 타입의 메시지를 전송한다.
+         */
         public void sendMessages() {
             multiTypeKafkaTemplate.send(multiTypeTopicName, new Greeting("Greetings", "World!"));
             multiTypeKafkaTemplate.send(multiTypeTopicName, new Farewell("Farewell", 25));
